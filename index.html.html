@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quicky Branch Locator</title>
+  <style>
+    :root{
+      --bg:#f8fbff;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#e2e8f0;
+      --brand:#0ea5e9;
+      --brand-soft:#e0f2fe;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Thai",sans-serif;
+      background:linear-gradient(180deg,#f0f9ff 0%, #ffffff 45%, #f8fafc 100%);
+      color:var(--text);
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:20px;
+    }
+    .hero{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px;
+      box-shadow:0 10px 30px rgba(15,23,42,.05);
+    }
+    .title{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      margin-bottom:14px;
+    }
+    .logo{
+      width:58px;height:58px;border-radius:18px;
+      background:var(--brand-soft);
+      display:flex;align-items:center;justify-content:center;
+      font-size:28px;
+    }
+    h1{
+      margin:0;
+      font-size:clamp(28px,4vw,46px);
+      line-height:1.05;
+    }
+    .sub{
+      margin:4px 0 0;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin:16px 0 18px;
+    }
+    .badge{
+      background:#f1f5f9;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:14px;
+      color:#334155;
+    }
+    .searchbox{
+      width:100%;
+      padding:14px 16px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      font-size:16px;
+      outline:none;
+    }
+    .searchbox:focus{
+      border-color:#7dd3fc;
+      box-shadow:0 0 0 4px rgba(14,165,233,.12);
+    }
+    .meta{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:14px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:1.6fr .85fr;
+      gap:20px;
+      margin-top:20px;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:24px;
+      box-shadow:0 10px 30px rgba(15,23,42,.04);
+    }
+    .card h2{
+      margin:0 0 6px;
+      font-size:28px;
+    }
+    .card p.desc{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:15px;
+    }
+    .branches{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:14px;
+    }
+    .branch{
+      display:block;
+      text-decoration:none;
+      color:inherit;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:18px;
+      transition:.18s ease;
+    }
+    .branch:hover{
+      transform:translateY(-2px);
+      border-color:#bae6fd;
+      background:#f0f9ff;
+    }
+    .branch-top{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .branch-left{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .pin{
+      width:42px;height:42px;border-radius:14px;
+      background:#fff;border:1px solid var(--line);
+      display:flex;align-items:center;justify-content:center;
+      font-size:18px;
+      flex:0 0 auto;
+    }
+    .branch-no{
+      font-size:13px;color:var(--muted);
+    }
+    .branch-name{
+      font-weight:700;
+      line-height:1.35;
+      font-size:18px;
+    }
+    .branch-cta{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-weight:600;
+      color:#334155;
+      font-size:14px;
+    }
+    .side-list{
+      display:grid;
+      gap:12px;
+    }
+    .item{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px 16px;
+      color:#475569;
+      line-height:1.45;
+      font-size:14px;
+    }
+    .footer{
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+      padding:20px 0 8px;
+    }
+    .empty{
+      display:none;
+      margin-top:14px;
+      padding:14px 16px;
+      border-radius:18px;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      color:var(--muted);
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:1fr}
+      .branches{grid-template-columns:1fr}
+      .hero,.card{padding:20px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="title">
+        <div class="logo">🚗</div>
+        <div>
+          <h1>Quicky Branch Locator</h1>
+          <p class="sub">แตะเลือกสาขา เพื่อเปิด Google Maps และนำทางไปยังร้านได้ทันที</p>
+        </div>
+      </div>
+
+      <div class="badges">
+        <div class="badge">ล้างด่วน 90.-</div>
+        <div class="badge">ล้างภายนอกภายใน 5 นาที</div>
+        <div class="badge">ไม่ต้องลงจากรถ</div>
+      </div>
+
+      <input id="search" class="searchbox" type="text" placeholder="ค้นหาสาขา เช่น บางนา, เทพารักษ์, สนามบินน้ำ" />
+      <div class="meta">ทั้งหมด 11 สาขา</div>
+    </section>
+
+    <section class="grid">
+      <div class="card">
+        <h2>เลือกสาขาที่ต้องการ</h2>
+        <p class="desc">กดที่ปุ่มของแต่ละสาขา เพื่อเปิดแผนที่นำทางบน Google Maps</p>
+
+        <div id="branches" class="branches"></div>
+        <div id="empty" class="empty">ไม่พบสาขาที่ค้นหา ลองพิมพ์ชื่อพื้นที่หรือหมายเลขสาขาใหม่อีกครั้ง</div>
+      </div>
+
+      <div style="display:grid; gap:20px;">
+        <div class="card">
+          <h2 style="font-size:22px;">จุดเด่นบริการ</h2>
+          <div class="side-list">
+            <div class="item">ล้างรถด่วน Drive Thru ราคา 90.-</div>
+            <div class="item">ล้างภายนอก สะอาดไว ภายใน 5 นาที</div>
+            <div class="item">ล้างด้วยมือ ไม่ใช่เครื่องอัตโนมัติ</div>
+            <div class="item">ไม่ต้องจองคิว และสามารถนั่งบนรถระหว่างล้างได้</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:22px;">เหมาะสำหรับ NFC</h2>
+          <div class="side-list">
+            <div class="item">ลูกค้าแตะครั้งเดียว แล้วเลือกสาขาใกล้บ้านได้ทันที</div>
+            <div class="item">ใช้ NFC ชิ้นเดียวได้กับทุกสาขา</div>
+            <div class="item">เพิ่มหรือลดสาขาภายหลังได้ โดยไม่ต้องเขียน NFC ใหม่</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">Quicky Car Wash • เลือกสาขาเพื่อเปิดเส้นทางบน Google Maps</div>
+  </div>
+
+  <script>
+    const branches = [
+      { id: 1, name: "Quicky @เสรีไทย29", url: "https://maps.app.goo.gl/3ZRW6VsVCQiDJy568" },
+      { id: 2, name: "Quicky @เทพารักษ์", url: "https://maps.app.goo.gl/Vd9MdzKN8Xr3b7ibA" },
+      { id: 3, name: "Quicky @ปากน้ำ", url: "https://maps.app.goo.gl/R7wj3Et1cYPG26Rc9" },
+      { id: 4, name: "Quicky @บางพลี", url: "https://maps.app.goo.gl/c3oghqcsS2M2PC9DA" },
+      { id: 5, name: "Quicky @บางนา", url: "https://maps.app.goo.gl/VSoon9GZGXN9pTd18" },
+      { id: 6, name: "Quicky @สุขุมวิท 50", url: "https://maps.app.goo.gl/3XAmHxo3LarqYFKY6" },
+      { id: 7, name: "Quicky @เลี่ยงเมืองนนทบุรี", url: "https://maps.app.goo.gl/Z1sPmeyPCAL6a36X8" },
+      { id: 8, name: "Quicky @วชิรธรรมสาธิต 70", url: "https://maps.app.goo.gl/BGXEcbNxaBB86U7V6" },
+      { id: 9, name: "Quicky @เฉลิมพระเกียรติ ร.9", url: "https://maps.app.goo.gl/AAKwALV9ZPG9PSWR7" },
+      { id: 11, name: "Quicky @ศรีนครินทร์ 38", url: "https://maps.app.goo.gl/pWk4A26Hn2GT5PZm9" },
+      { id: 12, name: "Quicky @สนามบินน้ำ", url: "https://maps.app.goo.gl/B74GFmj7e8smGvFV7" }
+    ];
+
+    const container = document.getElementById('branches');
+    const search = document.getElementById('search');
+    const empty = document.getElementById('empty');
+
+    function render(list){
+      container.innerHTML = list.map(branch => `
+        <a class="branch" href="${branch.url}" target="_blank" rel="noreferrer">
+          <div class="branch-top">
+            <div class="branch-left">
+              <div class="pin">📍</div>
+              <div>
+                <div class="branch-no">สาขา ${branch.id}</div>
+                <div class="branch-name">${branch.name}</div>
+              </div>
+            </div>
+            <div style="color:#94a3b8;font-size:20px;">→</div>
+          </div>
+          <div class="branch-cta">
+            <span>เปิด Google Maps</span>
+            <span style="font-size:12px;color:#94a3b8;">แตะเพื่อไปยังสาขา</span>
+          </div>
+        </a>
+      `).join('');
+
+      empty.style.display = list.length ? 'none' : 'block';
+    }
+
+    search.addEventListener('input', () => {
+      const q = search.value.trim().toLowerCase();
+      const filtered = branches.filter(b =>
+        b.name.toLowerCase().includes(q) || String(b.id).includes(q)
+      );
+      render(filtered);
+    });
+
+    render(branches);
+  </script>
+</body>
+</html>
